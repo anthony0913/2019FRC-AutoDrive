@@ -31,6 +31,11 @@ class Befehler{//determines where to go
           32      RRF1 RRF2 RRF3
           35      RRCB1 RRCB2 RRCB3
           38      RRCF1 RRCF2 RRCF3
+
+		  FIELD MAPPING
+		  The game field will be mapped in 2D space using an XY plane. 
+		  The origin will be set at the leftmost point within the field,
+		  touching the wall of the driver station corresponding to the starting side.
         */
         
 		//int time;
@@ -38,14 +43,132 @@ class Befehler{//determines where to go
 		Befehler(string start){
             //time = 150;
             pos = start;
-            bias = "right";
+			if (start == "LF2") { isRight = false; }
+			else if (start == "RH2") { isRight = true; }
+			if (isRight) { bias = "right rocket"; }
+			else if (!isRight) { bias = "left rocket"; }
         }
 		
+		void checkSide() {
+			if (1>0) 
+		}
+
 		string call() {
 			if (holdingCargo) { return "STANDBY"; }
 			else if (holdingHatch) { return "STANDBY"; }
 			//Determine which half of the map the robot is currently on, return most convenient port and object to call
+			else if ((
+				target == "LRB1" ||
+				target == "LRB2" ||
+				target == "LRB3" ||
+				target == "LRF1" ||
+				target == "LRF2" ||
+				target == "LRF3" ||
 
+				target == "LSH1" ||
+				target == "LSH2" ||
+				target == "LSH3" ||
+
+				target == "RSH1" ||
+				target == "RSH2" ||
+				target == "RSH3" ||
+
+				target == "CSH1" ||
+				target == "CSH2" ||
+
+				target == "RRB1" ||
+				target == "RRB2" ||
+				target == "RRB3" ||
+				target == "RRF1" ||
+				target == "RRF2" ||
+				target == "RRF3")
+				&&(!isRight)) {
+				return "L-Hatch";
+			}
+			else if ((
+				target == "LRB1" ||
+				target == "LRB2" ||
+				target == "LRB3" ||
+				target == "LRF1" ||
+				target == "LRF2" ||
+				target == "LRF3" ||
+
+				target == "LSH1" ||
+				target == "LSH2" ||
+				target == "LSH3" ||
+
+				target == "RSH1" ||
+				target == "RSH2" ||
+				target == "RSH3" ||
+
+				target == "CSH1" ||
+				target == "CSH2" ||
+
+				target == "RRB1" ||
+				target == "RRB2" ||
+				target == "RRB3" ||
+				target == "RRF1" ||
+				target == "RRF2" ||
+				target == "RRF3")
+				&&(isRight)) {
+				return "R-Hatch";
+			}
+			else if ((
+				target == "LRCB1" ||
+				target == "LRCB2" ||
+				target == "LRCB3" ||
+				target == "LRCF1" ||
+				target == "LRCF2" ||
+				target == "LRCF3" ||
+
+				target == "LSC1" ||
+				target == "LSC2" ||
+				target == "LSC3" ||
+
+				target == "RSC1" ||
+				target == "RSC2" ||
+				target == "RSC3" ||
+
+				target == "CSC1" ||
+				target == "CSC2" ||
+
+				target == "RRCB1" ||
+				target == "RRCB2" ||
+				target == "RRCB3" ||
+				target == "RRCF1" ||
+				target == "RRCF2" ||
+				target == "RRCF3")
+				&&(!isRight)) {
+				return "L-Cargo";
+			}
+			else if ((
+				target == "LRCB1" ||
+				target == "LRCB2" ||
+				target == "LRCB3" ||
+				target == "LRCF1" ||
+				target == "LRCF2" ||
+				target == "LRCF3" ||
+
+				target == "LSC1" ||
+				target == "LSC2" ||
+				target == "LSC3" ||
+
+				target == "RSC1" ||
+				target == "RSC2" ||
+				target == "RSC3" ||
+
+				target == "CS1" ||
+				target == "CS2" ||
+
+				target == "RRCB1" ||
+				target == "RRCB2" ||
+				target == "RRCB3" ||
+				target == "RRCF1" ||
+				target == "RRCF2" ||
+				target == "RRCF3")
+				&&(isRight)) {
+				return "R-Cargo";
+			}
 		}
 
 		void AllesLosen() {//Alles Lösen
@@ -332,12 +455,12 @@ class Befehler{//determines where to go
 			*/
 		}
     private:
-        string target;
+        string target; //next position to move towards
 		double currentPosX, currentPosY,targetPosX, targetPosY, orientation;//orientation is a bearing in radians
 		double robotLen; //distance between camera and front bumper, will compensate for x and y positions in target mapping
 		int cleared[40];
-		bool holdingCargo, holdingHatch;
-        
+		bool holdingCargo, holdingHatch; 
+		boolean isRight; //Whether or not the robot is on the right side of the field
 
 };
 
